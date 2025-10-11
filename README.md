@@ -34,14 +34,14 @@ Create a text file describing the animation script (21 columns x 4 rows
 visible per frame). Then execute:
 
 ```bash
-python gifr.py samples/input.txt
+python gifr.py input.txt
 ```
 
-This writes `samples/input.gif` next to the input file. You can override
+This writes `input.gif` next to the input file. You can override
 the destination path or frame duration:
 
 ```bash
-python gifr.py samples/input.txt output.gif --duration 80
+python gifr.py input.txt output.gif --duration 80
 ```
 
 Escape sequences like `\065` are supported and reference the Kaypro II
