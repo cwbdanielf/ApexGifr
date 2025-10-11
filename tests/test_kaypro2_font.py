@@ -25,6 +25,15 @@ def test_convert_text_invalid_escape():
         Kaypro2Font.convert_text("\\0A5")
 
 
+def test_convert_text_trailing_newline_windows_style():
+    converted = Kaypro2Font.convert_text("A\r\nB\r\n")
+    assert converted.length == 3
+    assert converted.data[0][0] == ord("A")
+    assert converted.data[0][1] == ord("B")
+    # Trailing blank line should remain spaces
+    assert converted.data[0][2] == 32
+
+
 def test_font_bitmap_completeness():
     bits = Kaypro2Font.BITS
     assert len(bits) == 128 * 8

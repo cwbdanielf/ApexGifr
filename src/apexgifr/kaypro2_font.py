@@ -9,6 +9,7 @@ original licensing terms.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import List
 
@@ -144,11 +145,7 @@ class Kaypro2Font:
         The conversion supports escape sequences of the form ``\\NNN``.
         """
 
-        lines = text.splitlines()
-        if text.endswith(("\n", "\r")):
-            # Preserve trailing newline behaviour of the original tool.
-            lines.append("")
-
+        lines = re.split(r"\r\n|\r|\n", text)
         if not lines:
             return ConvertedText([[32] for _ in range(Kaypro2Font.MAX_COLUMNS)], 1)
 
