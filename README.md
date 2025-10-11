@@ -47,7 +47,7 @@ python gifr.py input.txt output.gif --duration 80
 Escape sequences like `\065` are supported and reference the Kaypro II
 character codes. 
 
-<img width="760" height="1000" alt="image" src="https://github.com/user-attachments/assets/f7f66d6e-f7f2-4152-9cfa-54d09b8285ee" />
+<img width="380" height="500" alt="image" src="https://github.com/user-attachments/assets/f7f66d6e-f7f2-4152-9cfa-54d09b8285ee" />
 
 
 ## Development
