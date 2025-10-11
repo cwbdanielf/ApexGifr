@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "apexgifr"
+version = "0.1.0"
+description = "Animated GIF generator for SteelSeries Apex OLED displays"
+readme = "README.md"
+authors = [{name = "ApexGifr Contributors"}]
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = [
+    "Pillow>=10.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/example/ApexGifr"
+Source = "https://github.com/example/ApexGifr"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
