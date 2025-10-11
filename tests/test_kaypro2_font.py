@@ -25,6 +25,35 @@ def test_convert_text_invalid_escape():
         Kaypro2Font.convert_text("\\0A5")
 
 
+def test_font_bitmap_completeness():
+    bits = Kaypro2Font.BITS
+    assert len(bits) == 128 * 8
+    # Spot-check well-known glyphs to ensure the bitmap table remains intact.
+    start_a = ord("A") * 8
+    assert bits[start_a : start_a + 8] == [
+        0x04,
+        0x0A,
+        0x11,
+        0x11,
+        0x1F,
+        0x11,
+        0x11,
+        0x00,
+    ]
+
+    start_zero = ord("0") * 8
+    assert bits[start_zero : start_zero + 8] == [
+        0x0E,
+        0x11,
+        0x13,
+        0x15,
+        0x19,
+        0x11,
+        0x0E,
+        0x00,
+    ]
+
+
 @pytest.mark.parametrize("code", [-5, 0, 200])
 def test_draw_character_handles_invalid_codes(code, tmp_path):
     from PIL import Image
