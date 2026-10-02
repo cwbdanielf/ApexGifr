@@ -15,13 +15,23 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+web = [
+    "Flask>=3.0.0",
+]
 dev = [
     "pytest>=7.0",
+    "Flask>=3.0.0",
 ]
 
 [project.urls]
-Homepage = "https://github.com/example/ApexGifr"
-Source = "https://github.com/example/ApexGifr"
+Homepage = "https://github.com/danielpucwb/ApexGifr"
+Source = "https://github.com/danielpucwb/ApexGifr"
+
+[project.scripts]
+apexgifr-web = "apexgifr.web:main"
+
+[tool.setuptools.package-data]
+apexgifr = ["templates/*.html", "static/*.css", "static/*.js"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

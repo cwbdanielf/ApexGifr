@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#edf2f8">
+    <meta name="description" content="Crie animações de texto para o display OLED do seu teclado Apex.">
+    <title>ApexGifr — OLED Studio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css', v=3) }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='gif-editor.css', v=1) }}">
+  </head>
+  <body>
+    <div class="ambient ambient-blue" aria-hidden="true"></div>
+    <div class="ambient ambient-lilac" aria-hidden="true"></div>
+
+    <main class="device" aria-label="ApexGifr OLED Studio">
+      <div class="status-bar" aria-hidden="true">
+        <span class="status-time">9:41</span>
+        <span class="dynamic-island"></span>
+        <span class="status-icons">
+          <svg viewBox="0 0 18 14" role="presentation"><path d="M1 5.1A12 12 0 0 1 17 5.1M4 8.2a7.5 7.5 0 0 1 10 0m-6.8 3a2.7 2.7 0 0 1 3.6 0"/></svg>
+          <svg viewBox="0 0 18 14" role="presentation"><rect x="1" y="3" width="14" height="8" rx="2"/><path d="M17 5.5v3"/><path class="battery-fill" d="M3 5h9v4H3z"/></svg>
+        </span>
+      </div>
+
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="ApexGifr, início">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><rect x="3" y="5" width="26" height="22" rx="7"/><path d="M10 21l6-11 6 11m-9-4h6"/></svg>
+          </span>
+          <span class="brand-copy"><strong>ApexGifr</strong><small>OLED STUDIO</small></span>
+        </a>
+        <div class="topbar-right">
+          <span class="local-status"><i></i> processamento local</span>
+          <button class="icon-button" id="helpButton" type="button" aria-label="Sobre a ferramenta" title="Sobre a ferramenta">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.7 9a2.4 2.4 0 1 1 4.2 1.6c-.9.9-1.9 1.3-1.9 2.8m0 3h.01"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> SEU TECLADO, SUA ASSINATURA</div>
+          <h1>Um pouco mais<br><span>com a sua cara.</span></h1>
+          <p>Transforme uma mensagem em uma animação para o display OLED do seu Apex.</p>
+        </div>
+        <div class="hero-badge" aria-label="Formato de saída: 128 por 40 pixels, monocromático">
+          <span class="badge-glow"></span>
+          <span class="badge-label">FORMATO OLED</span>
+          <strong>128<span>×</span>40</strong>
+          <small>MONOCROMÁTICO</small>
+        </div>
+      </section>
+
+      <nav class="mode-switch" aria-label="Tipo de animação">
+        <button class="mode-button is-active" id="textModeButton" type="button" aria-pressed="true">Texto animado</button>
+        <button class="mode-button" id="gifModeButton" type="button" aria-pressed="false">Converter GIF</button>
+      </nav>
+
+      <section class="workspace" id="textWorkspace" aria-label="Editor de animação">
+        <div class="panel editor-panel">
+          <div class="panel-heading">
+            <div><span class="step-index">01</span><h2>Conteúdo</h2></div>
+            <span class="subtle-label">ANIMAÇÃO DE TEXTO</span>
+          </div>
+
+          <label for="animationText" class="field-label">Sua mensagem <span>• ESCAPE \065</span></label>
+          <div class="textarea-wrap">
+            <span class="textarea-glyph" aria-hidden="true">Aa</span>
+            <textarea id="animationText" maxlength="4096" spellcheck="false" aria-describedby="textHelp">APEX PRO
+YOUR MESSAGE</textarea>
+            <div class="textarea-footer"><span id="lineCount">2 linhas</span><span id="characterCount">20 / 4096</span></div>
+          </div>
+          <p class="field-help" id="textHelp">A quebra de linha é automática a cada 21 caracteres. Códigos especiais: <code>\065</code>.</p>
+
+          <div class="divider"></div>
+
+          <div class="duration-heading">
+            <label class="field-label" for="duration">Velocidade da animação</label>
+            <div class="duration-value"><strong id="durationValue">100</strong><span>ms / quadro</span></div>
+          </div>
+          <div class="range-wrap">
+            <span class="range-caption">RÁPIDA</span>
+            <input id="duration" type="range" min="20" max="1000" step="10" value="100" aria-label="Duração de cada quadro em milissegundos">
+            <span class="range-caption">LENTA</span>
+          </div>
+          <div class="range-scale"><span>20 ms</span><span>1000 ms</span></div>
+
+          <button class="primary-button" id="generateButton" type="button">
+            <span class="button-sparkle" aria-hidden="true">✳</span>
+            <span id="buttonLabel">Criar animação</span>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg>
+          </button>
+          <p class="privacy-note"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="8" rx="2"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg> Seu texto é processado apenas neste computador.</p>
+        </div>
+
+        <div class="panel preview-panel">
+          <div class="panel-heading preview-heading">
+            <div><span class="step-index">02</span><h2>Prévia</h2></div>
+            <span class="live-pill"><i></i> <span id="previewStatus">AGUARDANDO</span></span>
+          </div>
+
+          <div class="preview-stage" id="previewStage">
+            <div class="preview-orb orb-one"></div><div class="preview-orb orb-two"></div>
+            <div class="oled-device">
+              <div class="oled-topline"><span>STEELSERIES</span><span class="oled-indicator"></span></div>
+              <div class="oled-screen" id="oledScreen">
+                <div class="empty-preview" id="emptyPreview">
+                  <span class="empty-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="6" width="26" height="20" rx="4"/><path d="M8 13h7m-7 5h12m-12 4h5"/></svg></span>
+                  <strong>Sua prévia aparece aqui</strong>
+                  <span>Digite uma mensagem e crie a animação</span>
+                </div>
+                <img id="gifPreview" alt="Prévia animada da mensagem para o display OLED" hidden>
+              </div>
+              <div class="oled-bottomline"><span>128 × 40 PX</span><span>APEX OLED</span></div>
+              <div class="sr-only" id="oledAnnouncement" aria-live="polite"></div>
+            </div>
+            <span class="stage-caption">SIMULAÇÃO DO DISPLAY</span>
+          </div>
+
+          <div class="preview-meta">
+            <div class="meta-item"><span class="meta-icon frames-icon" aria-hidden="true">▦</span><div><small>RESOLUÇÃO</small><strong>128 × 40 <em>px</em></strong></div></div>
+            <div class="meta-item"><span class="meta-icon loop-icon" aria-hidden="true">↻</span><div><small>REPRODUÇÃO</small><strong>Loop infinito</strong></div></div>
+          </div>
+          <a class="download-button is-disabled" id="downloadButton" href="#" download="apexgifr.gif" aria-disabled="true">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2v10m-4-4 4 4 4-4M3 14v3h14v-3"/></svg>
+            Baixar GIF
+            <span>.GIF</span>
+          </a>
+          <p class="status-message" id="statusMessage" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="gif-workspace" id="gifWorkspace" aria-label="Editor de GIF" hidden>
+        <div class="panel gif-editor-panel">
+          <div class="panel-heading">
+            <div><span class="step-index">01</span><h2>Seu GIF</h2></div>
+            <span class="subtle-label">CONVERSOR OLED</span>
+          </div>
+
+          <label class="upload-zone" id="uploadZone" for="gifFile">
+            <input id="gifFile" type="file" accept="image/gif,.gif" hidden>
+            <span class="upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m-4 4 4-4 4 4M4 15v4h16v-4"/></svg></span>
+            <strong id="uploadTitle">Escolha um GIF animado</strong>
+            <span id="uploadHint">ou arraste o arquivo aqui · máximo 20 MB</span>
+          </label>
+
+          <div class="gif-file-info" id="gifFileInfo" hidden>
+            <div><strong id="gifFileName"></strong><small id="gifMetadata"></small></div>
+            <button class="icon-button" id="removeGif" type="button" aria-label="Remover GIF">×</button>
+          </div>
+
+          <div class="gif-controls" id="gifControls" hidden>
+            <div class="control-section-title"><span>ENQUADRAMENTO</span><small>Arraste a prévia para posicionar</small></div>
+            <div class="control-row">
+              <label class="select-control">Ajuste
+                <select id="fitMode"><option value="cover">Preencher / recortar</option><option value="contain">Conter com fundo preto</option></select>
+              </label>
+              <label class="range-control">Zoom <span id="zoomValue">1,00×</span>
+                <input id="zoom" type="range" min="0.5" max="3" step="0.05" value="1">
+              </label>
+            </div>
+            <div class="control-section-title tonal-title"><span>MONOCROMÁTICO</span><small>Preto e branco para o OLED</small></div>
+            <div class="control-row tone-row">
+              <label class="range-control">Limiar <span id="thresholdValue">64</span>
+                <input id="threshold" type="range" min="0" max="255" step="1" value="64">
+              </label>
+              <label class="range-control">Velocidade <span id="speedValue">1,00×</span>
+                <input id="speed" type="range" min="0.25" max="4" step="0.05" value="1">
+              </label>
+            </div>
+            <label class="toggle-control"><input id="invert" type="checkbox"><span class="toggle-track"></span> Inverter preto e branco</label>
+            <label class="toggle-control"><input id="dither" type="checkbox"><span class="toggle-track"></span> Dithering para preservar detalhes
+              <span class="hint-dot" title="Cria pontos pretos e brancos para simular tons intermediários.">?</span>
+            </label>
+            <button class="primary-button" id="convertGifButton" type="button" disabled>
+              <span class="button-sparkle" aria-hidden="true">✳</span><span id="convertGifLabel">Converter para OLED</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg>
+            </button>
+          </div>
+          <p class="privacy-note"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="8" rx="2"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg> Seu GIF é processado apenas neste computador.</p>
+        </div>
+
+        <div class="panel gif-preview-panel">
+          <div class="panel-heading preview-heading">
+            <div><span class="step-index">02</span><h2 id="gifPreviewHeading">Enquadramento</h2></div>
+            <span class="live-pill"><i></i> <span id="gifPreviewStatus">AGUARDANDO</span></span>
+          </div>
+          <div class="preview-stage crop-stage" id="cropStage">
+            <div class="preview-orb orb-one"></div><div class="preview-orb orb-two"></div>
+            <div class="oled-device crop-device">
+              <div class="oled-topline"><span>STEELSERIES</span><span class="oled-indicator"></span></div>
+              <div class="oled-screen crop-screen" id="cropScreen">
+                <div class="gif-empty-preview" id="gifEmptyPreview"><strong>Carregue um GIF</strong><span>Ajuste e prévia no formato 128 × 40</span></div>
+                <canvas id="cropCanvas" width="128" height="40" hidden></canvas>
+                <img id="convertedGifPreview" alt="GIF convertido para o formato OLED" hidden>
+              </div>
+              <div class="oled-bottomline"><span>128 × 40 PX</span><span>APEX OLED</span></div>
+            </div>
+            <span class="stage-caption" id="cropCaption">PRÉVIA MONOCROMÁTICA</span>
+          </div>
+          <div class="gif-preview-meta"><span>ORIGINAL <strong id="sourceSummary">—</strong></span><span>SAÍDA <strong>128 × 40 · 1-BIT</strong></span></div>
+          <a class="download-button is-disabled" id="gifDownloadButton" href="#" download="apex-oled.gif" aria-disabled="true">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2v10m-4-4 4 4 4-4M3 14v3h14v-3"/></svg> Baixar GIF <span>.GIF</span>
+          </a>
+          <p class="status-message" id="gifStatusMessage" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <footer class="app-footer"><span>FEITO PARA O SEU APEX</span><span class="footer-dot"></span><span>SEM UPLOAD. SEM COMPLICAÇÃO.</span><span class="footer-version">APEXGIFR <b>·</b> 01</span></footer>
+    </main>
+
+    <dialog class="help-dialog" id="helpDialog">
+      <div class="dialog-mark"><svg viewBox="0 0 32 32"><rect x="3" y="5" width="26" height="22" rx="7"/><path d="M10 21l6-11 6 11m-9-4h6"/></svg></div>
+      <button class="dialog-close icon-button" id="closeHelp" type="button" aria-label="Fechar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+      <span class="eyebrow">APEXGIFR OLED STUDIO</span>
+      <h2>Pequeno display.<br><span>Grande personalidade.</span></h2>
+      <p>Escreva sua mensagem ou ajuste um GIF animado. O resultado é monocromático, em 128 × 40 pixels, pronto para o display OLED.</p>
+      <p class="dialog-footnote">Crie texto animado ou converta um GIF existente para o formato monocromático do display.</p>
+      <button class="primary-button dialog-done" id="doneHelp" type="button">Entendi <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg></button>
+    </dialog>
+
+    <script src="{{ url_for('static', filename='app.js', v=3) }}" defer></script>
+    <script src="{{ url_for('static', filename='gif-editor.js', v=1) }}" defer></script>
+  </body>
+</html>

@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from io import BytesIO
 from pathlib import Path
-from typing import Iterable, List
+from typing import BinaryIO, Iterable, List
 
 from PIL import Image
 
@@ -79,6 +80,20 @@ class AnimationGenerator:
 
         return frames
 
+    def _save_gif(self, frames: List[Image.Image], output: BinaryIO) -> None:
+        if not frames:
+            raise ValueError("No frames to save.")
+
+        frames[0].save(
+            output,
+            format="GIF",
+            save_all=True,
+            append_images=frames[1:],
+            loop=0,
+            duration=self.settings.frame_duration_ms,
+            disposal=2,
+        )
+
     def save_gif(self, frames: List[Image.Image], output_path: Path) -> None:
         """Persist the provided frames as a looping GIF animation."""
 
@@ -87,15 +102,15 @@ class AnimationGenerator:
 
         output_path = Path(output_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
+        with output_path.open("wb") as output:
+            self._save_gif(frames, output)
 
-        frames[0].save(
-            output_path,
-            save_all=True,
-            append_images=frames[1:],
-            loop=0,
-            duration=self.settings.frame_duration_ms,
-            disposal=2,
-        )
+    def generate_bytes(self, text: ConvertedText) -> bytes:
+        """Render the text animation as GIF bytes."""
+
+        with BytesIO() as output:
+            self._save_gif(self.render_frames(text), output)
+            return output.getvalue()
 
     def generate(self, text: ConvertedText, output_path: Path) -> Path:
         """Generate and store an animation for the provided text."""

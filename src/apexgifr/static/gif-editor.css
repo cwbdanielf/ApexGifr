@@ -1,0 +1,61 @@
+.mode-switch { display: flex; width: fit-content; gap: 4px; margin: -17px 0 20px; padding: 4px; border: 1px solid rgba(255,255,255,.86); border-radius: 13px; background: rgba(255,255,255,.42); box-shadow: inset 0 1px 3px rgba(67,89,126,.06), 0 2px 8px rgba(67,89,126,.035); backdrop-filter: blur(18px); }
+.mode-button { min-height: 33px; padding: 0 14px; border: 1px solid transparent; border-radius: 9px; color: #7f8da4; background: transparent; font-size: 9px; font-weight: 700; cursor: pointer; transition: color .2s, background .2s, box-shadow .2s, transform .25s; }
+.mode-button:hover { color: #3d5f9a; }
+.mode-button:active { transform: scale(.97); }
+.mode-button.is-active { border-color: rgba(255,255,255,.9); color: #3b72d0; background: rgba(255,255,255,.82); box-shadow: 0 2px 7px rgba(65,93,142,.09), inset 0 1px 0 #fff; }
+.gif-workspace { display: grid; grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr); align-items: stretch; gap: 17px; }
+.gif-workspace[hidden] { display: none; }
+.gif-editor-panel, .gif-preview-panel { min-width: 0; padding: 25px 27px 19px; }
+.upload-zone { display: flex; min-height: 108px; align-items: center; justify-content: center; flex-direction: column; gap: 5px; border: 1px dashed rgba(89,130,194,.36); border-radius: 15px; color: #6d7f9d; background: linear-gradient(135deg, rgba(240,246,255,.66), rgba(255,255,255,.57)); cursor: pointer; transition: border .2s, background .2s, transform .25s, box-shadow .2s; }
+.upload-zone:hover, .upload-zone.is-dragging { transform: translateY(-1px); border-color: rgba(62,119,216,.7); background: rgba(237,245,255,.92); box-shadow: 0 7px 18px rgba(66,110,183,.09), inset 0 1px 0 #fff; }
+.upload-zone strong { color: #4d6386; font-size: 10px; font-weight: 700; }
+.upload-zone > span:last-child { color: #9aa6b8; font-size: 8px; }
+.upload-icon { display: grid; width: 28px; height: 28px; margin-bottom: 2px; place-items: center; border: 1px solid rgba(89,138,213,.13); border-radius: 9px; color: #5285d5; background: rgba(112,159,236,.1); }
+.upload-icon svg { width: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.gif-file-info { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 10px; margin-top: 9px; padding: 7px 9px 7px 12px; border: 1px solid rgba(123,148,187,.16); border-radius: 11px; background: rgba(255,255,255,.52); }
+.gif-file-info[hidden], .gif-controls[hidden] { display: none; }
+.gif-file-info > div { display: grid; min-width: 0; gap: 3px; }
+.gif-file-info strong { overflow: hidden; color: #586984; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.gif-file-info small { color: #94a0b1; font: 8px var(--mono); }
+#removeGif { width: 28px; height: 28px; font-size: 15px; }
+.gif-controls { margin-top: 17px; }
+.control-section-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 9px; color: #7687a0; font: 500 7px var(--mono); letter-spacing: .75px; }
+.control-section-title small { color: #a1abba; font: 500 7px var(--sans); letter-spacing: 0; }
+.control-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.select-control, .range-control { display: flex; min-width: 0; flex-direction: column; gap: 7px; color: #6e7d93; font-size: 8px; font-weight: 700; }
+.select-control select { width: 100%; height: 31px; padding: 0 8px; border: 1px solid rgba(128,151,187,.17); border-radius: 8px; outline: 0; color: #596a84; background: rgba(255,255,255,.7); font-size: 8px; }
+.range-control { position: relative; gap: 6px; }
+.range-control > span { position: absolute; top: 0; right: 0; color: #5480c3; font: 500 8px var(--mono); }
+.range-control input { width: 100%; margin: 5px 0 0; accent-color: #4b84e5; }
+.tonal-title { margin-top: 15px; }
+.toggle-control { display: flex; align-items: center; gap: 7px; margin-top: 9px; color: #77869d; font-size: 8px; font-weight: 600; cursor: pointer; }
+.toggle-control input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.toggle-track { position: relative; width: 25px; height: 14px; border: 1px solid rgba(107,130,168,.13); border-radius: 9px; background: rgba(124,142,171,.23); transition: background .2s; }
+.toggle-track::after { position: absolute; top: 2px; left: 2px; width: 8px; height: 8px; border-radius: 50%; background: white; box-shadow: 0 1px 3px rgba(45,60,84,.2); content: ''; transition: transform .2s; }
+.toggle-control input:checked + .toggle-track { background: #5789e3; }
+.toggle-control input:checked + .toggle-track::after { transform: translateX(11px); }
+.toggle-control input:focus-visible + .toggle-track { outline: 2px solid #5488e4; outline-offset: 2px; }
+.hint-dot { display: inline-grid; width: 12px; height: 12px; place-items: center; border: 1px solid rgba(105,134,181,.2); border-radius: 50%; color: #8ea0ba; font: 8px var(--mono); }
+#convertGifButton { margin-top: 15px; }
+#convertGifButton:disabled { cursor: not-allowed; opacity: .52; filter: saturate(.5); }
+.gif-editor-panel > .privacy-note { margin-top: 12px; }
+.crop-stage { touch-action: none; }
+.crop-screen { cursor: grab; }
+.crop-screen.is-dragging { cursor: grabbing; }
+#cropCanvas, #convertedGifPreview { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+.gif-empty-preview { display: flex; align-items: center; flex-direction: column; gap: 4px; color: #929f99; text-align: center; }
+.gif-empty-preview strong { color: #a8b4ac; font-size: 8px; }
+.gif-empty-preview span { color: #647168; font-size: 6px; }
+.gif-preview-meta { display: flex; min-height: 45px; align-items: center; justify-content: space-between; gap: 7px; margin: 10px 0; padding: 0 10px; border: 1px solid rgba(255,255,255,.8); border-radius: 10px; color: #9aa5b5; background: rgba(255,255,255,.46); font: 500 6px var(--mono); letter-spacing: .45px; }
+.gif-preview-meta strong { display: block; margin-top: 4px; color: #64728a; font: 600 8px var(--sans); letter-spacing: 0; }
+@media (max-width: 760px) {
+  .mode-switch { margin-top: -8px; }
+  .gif-workspace { grid-template-columns: 1fr; gap: 14px; }
+  .gif-editor-panel, .gif-preview-panel { padding: 22px 23px 18px; }
+}
+@media (max-width: 420px) {
+  .gif-editor-panel, .gif-preview-panel { padding-right: 18px; padding-left: 18px; }
+  .control-row { gap: 7px; }
+  .gif-preview-meta { padding: 0 7px; font-size: 5px; }
+  .gif-preview-meta strong { font-size: 7px; }
+}

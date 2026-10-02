@@ -1,66 +1,73 @@
 # ApexGifr
 
-ApexGifr is a Python 3.10 application that converts Kaypro II styled text
-into animated GIFs compatible with the SteelSeries Apex Pro TKL OLED
-display. The project is inspired by and functionally equivalent to the
-[SteelseriesAnimGif](https://github.com/bolner/SteelseriesAnimGif)
-utility by Tamás Bolner.
+ApexGifr creates animated monochrome GIFs for the 128×40 OLED display on the SteelSeries Apex Pro TKL. It includes a text-animation generator and a local web editor for converting existing animated GIFs.
 
 ## Features
 
-- Converts plain text files (with optional numeric escape sequences) to
-  scrolling animations.
-- Uses the authentic Kaypro II 8x8 bitmap font extracted from the
-  original project.
-- Generates 128x40 monochrome GIFs ready for the SteelSeries Apex Pro
-  TKL OLED display.
-- Provides a simple command-line interface and unit test suite.
+- Create scrolling text animations using the Kaypro II bitmap font.
+- Convert animated GIFs to 128×40, 1-bit black-and-white animations.
+- Preview and adjust framing with **cover/crop** or **contain**, zoom, and drag-to-position controls.
+- Tune the grayscale threshold, invert black and white, apply Floyd–Steinberg dithering, and adjust playback speed.
+- Preserve source frame delays (GIF timing uses 10 ms increments) and export an infinitely looping GIF.
+- Process uploaded files locally; they are not sent to a third-party service.
 
 ## Requirements
 
-- Python 3.10+
-- [Pillow](https://python-pillow.org/)
-- [pytest](https://docs.pytest.org/) for running the test suite
+- Python 3.10 or newer
+- Pillow
+- Flask for the web interface
 
-Install the dependencies with:
+## Install
 
-```bash
-pip install .[dev]
-```
-
-## Usage
-
-Create a text file describing the animation script (21 columns x 4 rows
-visible per frame). Then execute:
+From the repository root, install the web app and development/test dependencies:
 
 ```bash
-python gifr.py input.txt
+python -m pip install -e ".[web,dev]"
 ```
 
-This writes `input.gif` next to the input file. You can override
-the destination path or frame duration:
+For just the web app, use `python -m pip install -e ".[web]"`.
+
+## Web app
+
+Start the local server:
 
 ```bash
-python gifr.py input.txt output.gif --duration 80
+python -m apexgifr.web
 ```
 
-Escape sequences like `\065` are supported and reference the Kaypro II
-character codes. 
+Open <http://127.0.0.1:5000/> in your browser. The server binds to localhost by default. To choose a different port, run `python -m apexgifr.web --port 5050`.
 
-<img width="380" height="500" alt="image" src="https://github.com/user-attachments/assets/f7f66d6e-f7f2-4152-9cfa-54d09b8285ee" />
+### Convert an animated GIF
 
+1. Choose **Converter GIF** and upload a `.gif` file (or drag it into the upload area).
+2. Set the fit mode. **Preencher / recortar** fills the OLED frame and crops overflow; **Conter com fundo preto** fits the whole image and adds black bars as needed.
+3. Adjust zoom and drag the preview to reposition the crop. Tune threshold, inversion, dithering, and speed as desired.
+4. Select **Converter para OLED**, review the result, then download `apex-oled.gif`.
 
-## Development
+Uploads are limited to 20 MB, 300 frames, 2048 pixels per source dimension, and 20 million decoded source pixels. The exported animation is 128×40, black and white, and loops indefinitely.
 
-Run the unit tests to validate changes:
+### Create a text animation
+
+Choose **Texto animado**, enter text, set the frame duration, create the animation, and download the resulting GIF. Lines wrap automatically to the 21-character OLED width. Numeric escapes such as `\065` insert a Kaypro character code (valid range 000–127).
+
+The command-line text generator is also available:
 
 ```bash
-pytest
+python gifr.py input.txt [output.gif] --duration 80
 ```
 
-## Acknowledgements
+The input is UTF-8. If no output path is supplied, the GIF is written next to the text file with a `.gif` extension. Frame duration is in milliseconds; it defaults to 100 ms.
 
-This project reuses the Kaypro II font bitmaps and overall animation
-approach from Tamás Bolner's SteelseriesAnimGif project, licensed under
-Apache 2.0. The remainder of ApexGifr is distributed under the MIT
-License.
+## Tests
+
+Install the development extra and run:
+
+```bash
+python -m pytest
+```
+
+The suite covers text generation, web routes, animated GIF conversion, and the `fish.gif` example.
+
+## License and acknowledgements
+
+ApexGifr is distributed under the MIT License. The Kaypro II font bitmap data and parts of the animation approach are adapted from [SteelseriesAnimGif](https://github.com/bolner/SteelseriesAnimGif) by Tamás Bolner and remain under that project's Apache 2.0 license. See `LICENSE` for details.
